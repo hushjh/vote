@@ -25,12 +25,12 @@
         </el-form-item>
         <div class="vote">
           <el-select v-model="form.voteA" placeholder="投票人">
-            <el-option v-for="(item, index) in memberOpt" :key="index" 
+            <el-option v-for="(item, index) in memberOpt" :key="index"
             :label="item.label" :value="item.value"></el-option>
           </el-select>
           <span>选</span>
           <el-select v-model="form.voteB" placeholder="得票人">
-            <el-option v-for="(item, index) in beVoteOpt" :key="index" 
+            <el-option v-for="(item, index) in beVoteOpt" :key="index"
             :label="item.label" :value="item.value"></el-option>
           </el-select>
           <el-button type="primary" @click="handleVote">确定</el-button>
@@ -97,7 +97,6 @@ export default {
       } else {
         return []
       }
-      
     },
     allMemList () {
       if (this.form.allMember !== '') {
@@ -132,11 +131,11 @@ export default {
   watch: {
     'allMemList' () {
       this.memberList = this.allMemList
-      this.transTableData (this.allMemList)
+      this.transTableData(this.allMemList)
     },
     'oldGoodMemList' () {
       this.noVoteList = this.oldGoodMemList
-      this.transNoVote (this.noVoteList)
+      this.transNoVote(this.noVoteList)
     }
   },
   methods: {
@@ -153,7 +152,7 @@ export default {
           name: item,
           noVote: false
         }
-        obj.auth =auth
+        obj.auth = auth
         allMemList.forEach(itemCol => {
           obj[itemCol] = 0
         })
@@ -181,7 +180,7 @@ export default {
         let total = 0
         Object.keys(body[rowKey]).forEach(colKey => {
           if (colKey !== 'auth' && colKey !== 'total') {
-            total += + body[rowKey][colKey]
+            total += +body[rowKey][colKey]
           }
         })
         body[rowKey].total = total
@@ -201,14 +200,14 @@ export default {
         return item
       }
     },
-    isColTitle(iCol) {
+    isColTitle (iCol) {
       if (iCol.noVote) {
         return true
       } else {
         return false
       }
     },
-    isColHasVolter(iCol, colKey) {
+    isColHasVolter (iCol, colKey) {
       if (colKey === 'total' && iCol > 0) {
         return true
       } else {
@@ -217,8 +216,8 @@ export default {
     }
   },
   created () {
-    this.transTableData (this.memberList)
-    this.transNoVote (this.noVoteList)
+    this.transTableData(this.memberList)
+    this.transNoVote(this.noVoteList)
   }
 }
 </script>
