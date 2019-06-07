@@ -1,5 +1,5 @@
 <template>
-  <div class="vote-wrap">
+  <div class="vote-wrap-old">
     <div class="show-wrap">
       <div class="tb-head">
         <div class="tb-head-col" v-for="(item, index) in tableData.header" :key="index">
@@ -223,7 +223,7 @@ export default {
 </script>
 
 <style lang="less">
-.vote-wrap {
+.vote-wrap-old {
   display:flex;
   margin:20px;
   .show-wrap{
