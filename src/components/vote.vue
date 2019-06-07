@@ -1,7 +1,7 @@
 <template>
   <div class="vote-wrap">
     <div class="member-panel">
-      <el-col :span="4" v-for="(item, index) in memberList" :key="index">
+      <el-col :xs="12" :sm="8" :md="6" :lg="4" :xl="4" v-for="(item, index) in memberList" :key="index">
         <div class="member-name-block" >
           <el-button @click="handleMember(item)" :type="getColor()" plain size="medium" :disabled="banOrVote === ''">{{item}}</el-button>
         </div>
@@ -12,31 +12,37 @@
       <el-button type="primary" @click="handleVote">VOTE</el-button>
     </div>
     <div class="list">
-      <div class="ban-list">
-        <p class="title">曾经的周最佳</p>
-        <div class="ban-panel">
-          <el-tag :type="getColor()" v-for="(item, index) in banList" :key="index">{{item}}</el-tag>
-        </div>
-      </div>
-      <div class="vote-list">
-        <div class="vote-block" v-for="(item, key) in score" :key="key">
-          <div class="progress-line">
-            <el-progress :text-inside="true" :stroke-width="18" :percentage="getPercentage(item)"></el-progress>
+      <el-row>
+        <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" style="margin-bottom:20px;">
+          <div class="ban-list">
+            <p class="title">曾经的周最佳</p>
+            <div class="ban-panel">
+              <el-tag closable @close="handleDelBanItem(index)" :type="getColor()" v-for="(item, index) in banList" :key="index">{{item}}</el-tag>
+            </div>
           </div>
-          <div class="vote-ticket" :class="{'winner': isWinner(key)}">
-            <el-popover
-              placement="right"
-              title=""
-              width="200"
-              trigger="hover"
-              :content="getFans(key)">
-              <el-button slot="reference" plain size="mini" :type="getColor()">
-                {{key}}<span class="ticket-num">{{item}}</span>票
-              </el-button>
-            </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
+          <div class="vote-list">
+            <div class="vote-block" v-for="(item, key) in score" :key="key">
+              <div class="progress-line">
+                <el-progress :text-inside="true" :stroke-width="18" :percentage="getPercentage(item)"></el-progress>
+              </div>
+              <div class="vote-ticket" >
+                <el-popover
+                  placement="right"
+                  title=""
+                  width="200"
+                  trigger="hover"
+                  :content="getFans(key)">
+                  <el-button :class="{'winner': isWinner(key)}" slot="reference" plain size="mini" :type="getColor()">
+                    {{key}}<span class="ticket-num">{{item}}</span>票
+                  </el-button>
+                </el-popover>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
     </div>
     <voterDialog ref="voterDialog" :candidateList="candidateList" @vote="vote"></voterDialog>
   </div>
@@ -79,6 +85,9 @@ export default {
   watch: {
   },
   methods: {
+    handleDelBanItem (index) {
+      this.banList.splice(index, 1)
+    },
     isWinner (key) {
       if (this.result.hasOwnProperty(key)) {
         return true
@@ -100,6 +109,7 @@ export default {
       return str
     },
     setResult () {
+      this.result = {}
       let maxIndex = []
       let values = []
       let keys = []
@@ -108,6 +118,7 @@ export default {
         keys.push(key)
       })
       let max = 0
+      // 获取最大分数
       values.forEach((value, index) => {
         if (value > max) {
           max = value
@@ -121,6 +132,24 @@ export default {
       maxIndex.forEach(value => {
         this.$set(this.result, keys[value], max)
       })
+      // 排序
+      for (let i = 0; i < values.length - 1; i++) {
+        for (let j = i + 1; j < values.length; j++) {
+          if (values[j] > values[i]) {
+            let temp = values[i]
+            values[i] = values[j]
+            values[j] = temp
+            // 同时对应的key 数组要进行排序
+            temp = keys[i]
+            keys[i] = keys[j]
+            keys[j] = temp
+          }
+        }
+      }
+      this.score = {}
+      keys.forEach((key, index) => {
+        this.$set(this.score, key, values[index])
+      })
     },
     setScore (per) {
       if (!this.score.hasOwnProperty(per)) {
@@ -130,9 +159,38 @@ export default {
         this.score[per] += 1
       }
     },
+    setVoteHistory (per) {
+      this.voteHistory[this.fans] = per
+    },
+    voteCheck (per) {
+      // 检查，1，是否已经投过票了；2，是否重复投票；3，是否投自己
+      if (this.voteHistory.hasOwnProperty(this.fans)) {
+        // 重复投票，将一最后一次的为准
+        this.$message({
+          message: '亲，重复投票，之前的票数将作废哦!',
+          type: 'warning'
+        })
+        // 粉丝之前投的人
+        let prePer = this.voteHistory[this.fans]
+        if (this.score[prePer] === 1) {
+          this.$delete(this.score, prePer)
+        } else {
+          this.score[prePer] = this.score[prePer] - 1
+        }
+        this.$delete(this.voteHistory, this.fans)
+      }
+      // 投了自己
+      if (this.fans === per) {
+        this.$message({
+          message: '迷之自信，看好你哦!',
+          type: 'warning'
+        })
+      }
+    },
     vote (person) {
       console.log('vote:', person)
-      this.voteHistory[this.fans] = person
+      this.voteCheck(person)
+      this.setVoteHistory(person)
       this.setScore(person)
       this.setResult()
     },
@@ -192,11 +250,8 @@ html,body{
   }
   .list{
     margin-top:20px;
-    display:flex;
     .ban-list{
-      width:400px;
       background-color:#fff;
-      margin-right:20px;
       padding: 20px 10px 20px 20px;
       .ban-panel{
         display:flex;
