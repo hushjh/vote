@@ -12,7 +12,7 @@
       <el-button type="primary" @click="handleVote">VOTE</el-button>
     </div>
     <div class="list">
-      <el-row>
+      <el-row :gutter="20">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" style="margin-bottom:20px;">
           <div class="ban-list">
             <p class="title">曾经的周最佳</p>
@@ -238,6 +238,10 @@ html,body{
     .member-name-block{
       margin-right:10px;
       margin-top:10px;
+      .el-button{
+        width:80px;
+        height:40px;
+      }
     }
   }
   .ban-vote-panel{
@@ -282,6 +286,9 @@ html,body{
           .ticket-num{
             font-size:20px;
             padding:0 5px;
+          }
+          .el-button{
+            width:100px;
           }
         }
       }
