@@ -7,13 +7,14 @@
         </div>
       </el-col>
     </div>
-    <div class="ban-vote-panel">
-      <el-button type="danger" class="btn-ban" @click="handleBan">BAN</el-button>
-      <el-button type="primary" @click="handleVote">VOTE</el-button>
-    </div>
     <div class="list">
       <el-row :gutter="20">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" style="margin-bottom:20px;">
+          <div class="ban-vote-panel">
+            <el-button type="danger" class="btn-ban" @click="handleBan">BAN</el-button>
+            <el-button type="primary" @click="handleVote">VOTE</el-button>
+            <el-button type="success" @click="handleData">DATA</el-button>
+          </div>
           <div class="ban-list">
             <p class="title">曾经的周最佳</p>
             <div class="ban-panel">
@@ -50,6 +51,7 @@
 
 <script>
 import voterDialog from './voterDialog'
+import moment from 'moment'
 export default {
   name: 'vote',
   components: {
@@ -94,7 +96,7 @@ export default {
       }
     },
     getPercentage (item) {
-      let len = this.memberList.length
+      let len = this.memberList.length - this.banList.length
       return (item / len).toFixed(2) * 100
     },
     getFans (key) {
@@ -213,6 +215,30 @@ export default {
     },
     handleVote () {
       this.banOrVote = 'vote'
+    },
+    handleData () {
+      let obj = {
+        ban: this.banList,
+        vote: this.voteHistory,
+        score: this.score,
+        result: this.result
+      }
+      let doc = `---
+title: 20190605周最佳投票  
+date: 2019-06-05 17:44:53
+categories: vote
+author: 雷明庆
+tags:
+- 团队
+sidebar: auto
+---
+
+###  周最佳
+
+`
+      doc = doc + '```json' + JSON.stringify(obj) + '```'
+      let fileName = moment().format('YYYYMMDD') + '周最佳.md'
+      console.log('data:', {fileName, doc})
     }
   }
 }
@@ -245,12 +271,11 @@ html,body{
     }
   }
   .ban-vote-panel{
-    margin-top:20px;
+    margin-bottom:20px;
     padding:50px 20px;
     background-color:#fff;
-    .btn-ban{
-      margin-right:100px;
-    }
+    display:flex;
+    justify-content: space-around;
   }
   .list{
     margin-top:20px;
