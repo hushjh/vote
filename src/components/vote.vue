@@ -98,7 +98,6 @@ export default {
     getPercentage (item) {
       debugger
       let len = this.memberList.length - this.banList.length
-      console.log('item / len:', ((item / len) * 100).toFixed(2))
       return ((item / len) * 100).toFixed(2)
     },
     getFans (key) {
