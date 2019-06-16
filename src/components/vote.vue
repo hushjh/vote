@@ -96,9 +96,8 @@ export default {
       }
     },
     getPercentage (item) {
-      debugger
       let len = this.memberList.length - this.banList.length
-      return ((item / len) * 100).toFixed(2)
+      return Number(((item / len) * 100).toFixed(2))
     },
     getFans (key) {
       let str = ''
@@ -224,11 +223,27 @@ export default {
         score: this.score,
         result: this.result
       }
+      // vote那里，4个逗号换一行
+      let vote2 = JSON.parse(JSON.stringify(obj.vote))
+      let vote3 = {}
+      let times = 0
+      Object.keys(vote2).forEach(key => {
+        times++
+        if (times % 4 === 0) {
+          vote3[`\n${key}`] = vote2[key]
+        } else {
+          vote3[key] = vote2[key]
+        }
+      })
+      obj.vote = vote3
+      let objStr = JSON.stringify(obj)
+      objStr = objStr.replace(/\\n/g, '\n')
+      console.log('objStr:', objStr)
       let doc = `---
-title: 20190605周最佳投票  
-date: 2019-06-05 17:44:53
+title: ${moment().format('YYYYMMDD')}周最佳投票  
+date: ${moment().format('YYYY-MM-DD hh:mm:ss')}
 categories: vote
-author: 雷明庆
+author: 云业务武汉团队
 tags:
 - 团队
 sidebar: auto
@@ -237,8 +252,8 @@ sidebar: auto
 ###  周最佳
 
 `
-      doc = doc + '```json' + JSON.stringify(obj) + '```'
-      let fileName = moment().format('YYYYMMDD') + '周最佳.md'
+      doc = doc + '```json' + objStr + '```'
+      let fileName = moment().format('YYYYMMDD') + '_周最佳投票.md'
       console.log('data:', {fileName, doc})
     }
   }
