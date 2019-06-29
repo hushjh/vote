@@ -46,25 +46,29 @@
       </el-row>
     </div>
     <voterDialog ref="voterDialog" :candidateList="candidateList" @vote="vote"></voterDialog>
+    <dataDialog ref="dataDialog" :voteData="voteData"></dataDialog>
   </div>
 </template>
 
 <script>
 import voterDialog from './voterDialog'
+import dataDialog from './dataDialog'
 import moment from 'moment'
 export default {
   name: 'vote',
   components: {
-    voterDialog
+    voterDialog,
+    dataDialog
   },
   data () {
     return {
+      voteData: {},
       // 发起选票的人
       fans: '',
       result: {},
       score: {},
       voteHistory: {},
-      memberList: ['艾小姚','陈煜','戴敏','黄群','姜明哲','柯艳琴','刘钦铸','刘雅琴','刘志斌','马文涛','孟腾飞','王生资','王晓芳','熊龙辉','许璠','徐海','叶国良','张贵'],
+      memberList: ['艾小姚', '陈煜', '戴敏', '黄群', '姜明哲', '柯艳琴', '刘钦铸', '刘雅琴', '刘志斌', '马文涛', '孟腾飞', '王生资', '王晓芳', '熊龙辉', '许璠', '徐海', '叶国良', '张贵'],
       banList: [],
       // candidateList: ['刘志斌', '刘钦铸', '马文涛'],
       colors: ['primary', 'success', 'info', 'warning', 'danger'],
@@ -216,29 +220,25 @@ export default {
     handleVote () {
       this.banOrVote = 'vote'
     },
+    // str 每隔3个逗号换行
+    nByFlag (str, flag, num) {
+      let flagIndex = 0
+      str = str.replace(/,/g, (match) => {
+        if (++flagIndex % num === 0) {
+          return ',\n'
+        } else {
+          return match
+        }
+      })
+      return str
+    },
     handleData () {
       let obj = {
         ban: this.banList,
-        vote: this.voteHistory,
+        vote: this.nByFlag(JSON.stringify(this.voteHistory), ',', 3),
         score: this.score,
         result: this.result
       }
-      // vote那里，4个逗号换一行
-      let vote2 = JSON.parse(JSON.stringify(obj.vote))
-      let vote3 = {}
-      let times = 0
-      Object.keys(vote2).forEach(key => {
-        times++
-        if (times % 4 === 0) {
-          vote3[`\n${key}`] = vote2[key]
-        } else {
-          vote3[key] = vote2[key]
-        }
-      })
-      obj.vote = vote3
-      let objStr = JSON.stringify(obj)
-      objStr = objStr.replace(/\\n/g, '\n')
-      console.log('objStr:', objStr)
       let doc = `---
 title: ${moment().format('YYYYMMDD')}周最佳投票  
 date: ${moment().format('YYYY-MM-DD hh:mm:ss')}
@@ -251,10 +251,20 @@ sidebar: auto
 
 ###  周最佳
 
+\`\`\`json
+{
+  ban: ${JSON.stringify(obj.ban)}
+  vote: ${obj.vote}
+  score: ${JSON.stringify(obj.score)}
+  result: ${JSON.stringify(obj.result)}
+}
+\`\`\`
 `
-      doc = doc + '```json' + objStr + '```'
+      // doc = doc + '```json' + objStr + '```'
       let fileName = moment().format('YYYYMMDD') + '_周最佳投票.md'
       console.log('data:', {fileName, doc})
+      this.$refs.dataDialog.dialogVisible = true
+      this.voteData = {fileName, doc}
     }
   }
 }
