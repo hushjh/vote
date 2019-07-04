@@ -6,7 +6,7 @@
           <h1>文件名称</h1>
           <el-button size="mini" type="primary" class="copy-btn" @click="copy('.file-name-txt')">复制</el-button>
         </div>
-        <p class="file-name-txt" >{{voteData.fileName}}</p>
+        <pre class="file-name-txt" >{{voteData.fileName}}</pre>
       </div>
       <div class="item doc">
         <div class="title">
@@ -70,6 +70,10 @@ export default {
     &>pre{
       overflow: hidden;
       white-space: pre-wrap;
+      padding:20px;
+      background-color:#000;
+      color:#fff;
+      border-radius:5px;
     }
     .title{
       display:flex;
