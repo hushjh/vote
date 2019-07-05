@@ -253,10 +253,10 @@ sidebar: auto
 
 \`\`\`json
 {
-  ban: ${JSON.stringify(obj.ban)}
-  vote: ${obj.vote}
-  score: ${JSON.stringify(obj.score)}
-  result: ${JSON.stringify(obj.result)}
+  "ban": ${JSON.stringify(obj.ban)}
+  "vote": ${obj.vote}
+  "score": ${JSON.stringify(obj.score)}
+  "result": ${JSON.stringify(obj.result)}
 }
 \`\`\`
 `
