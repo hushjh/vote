@@ -13,7 +13,7 @@
           <h1>投票数据</h1>
           <el-button size="mini" type="primary" class="copy-btn" @click="copy('.doc-txt')">复制</el-button>
         </div>
-        <pre class="doc-txt">{{voteData.doc}}</pre>
+        <pre class="doc-txt" v-html="voteData.doc"></pre>
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -81,6 +81,21 @@ export default {
       .copy-btn{
         margin-left:20px;
       }
+    }
+  }
+  .in-line{
+    display:flex;
+    align-items: flex-start;
+    padding-left:20px;
+    margin-bottom: -10px;
+    margin-top: -10px;
+    .line-name{
+      width:70px;
+      display: inline-block;
+    }
+    .line-value{
+      flex:1;
+      margin: 0px;
     }
   }
 }

@@ -235,7 +235,8 @@ export default {
     handleData () {
       let obj = {
         ban: this.banList,
-        vote: this.nByFlag(JSON.stringify(this.voteHistory), ',', 3),
+        // vote: this.nByFlag(JSON.stringify(this.voteHistory), ',', 3),
+        vote: this.voteHistory,
         score: this.score,
         result: this.result
       }
@@ -253,10 +254,22 @@ sidebar: auto
 
 \`\`\`json
 {
-  "ban": ${JSON.stringify(obj.ban)}
-  "vote": ${obj.vote}
-  "score": ${JSON.stringify(obj.score)}
-  "result": ${JSON.stringify(obj.result)}
+  <div class="in-line">
+    <label class="line-name">"ban":</label>
+    <p class="line-value">${JSON.stringify(obj.ban)},</p>
+  </div>
+  <div class="in-line">
+    <label class="line-name">"vote":</label>
+    <p class="line-value">${JSON.stringify(obj.vote)},</p>
+  </div>
+  <div class="in-line">
+    <label class="line-name">"score":</label>
+    <p class="line-value">${JSON.stringify(obj.score)},</p>
+  </div>
+  <div class="in-line">
+    <label class="line-name">"result":</label>
+    <p class="line-value">${JSON.stringify(obj.result)},</p>
+  </div>
 }
 \`\`\`
 `
