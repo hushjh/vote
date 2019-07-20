@@ -268,7 +268,7 @@ sidebar: auto
   </div>
   <div class="in-line">
     <label class="line-name">"result":</label>
-    <p class="line-value">${JSON.stringify(obj.result)},</p>
+    <p class="line-value">${JSON.stringify(obj.result)}</p>
   </div>
 }
 \`\`\`
