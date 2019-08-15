@@ -96,9 +96,9 @@ export default {
     getDefaultMembers () {
       let memberUrl = '/members'
       http.default.get(memberUrl, {})
-      .then(res => {
-        this.memberList = res.members
-      })
+        .then(res => {
+          this.memberList = res.members
+        })
     },
     handleDelBanItem (index) {
       this.banList.splice(index, 1)
