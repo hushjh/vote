@@ -54,6 +54,7 @@
 import voterDialog from './voterDialog'
 import dataDialog from './dataDialog'
 import moment from 'moment'
+import * as http from '../lib/http'
 export default {
   name: 'vote',
   components: {
@@ -87,10 +88,18 @@ export default {
     }
   },
   created () {
+    this.getDefaultMembers()
   },
   watch: {
   },
   methods: {
+    getDefaultMembers () {
+      let memberUrl = '/members'
+      http.default.get(memberUrl, {})
+      .then(res => {
+        this.memberList = res.members
+      })
+    },
     handleDelBanItem (index) {
       this.banList.splice(index, 1)
     },

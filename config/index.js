@@ -10,7 +10,14 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/members': {
+        // target: 'http://192.168.32.123:8058', // 王聪本地
+        target: 'http://192.168.48.102:8090', // 内网
+        // target: 'http://120.132.23.147:5003', // 集成
+        changeOrigin: true
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
