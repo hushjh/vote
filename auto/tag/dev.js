@@ -6,7 +6,7 @@ const exec = util.promisify(require('child_process').exec);
 async function execFun(cmdStr){
   const { stdout, stderr } = await exec(cmdStr);
   console.log("stderr:", stderr);
-  return stdout
+  return stdout;
 }
 
 function getTagStr() {
@@ -28,7 +28,12 @@ async function init() {
   console.log("tag:", tag);
   let cmdStr = `git add . && git commit -m "new tag ${tag} published by ${userName}" --no-verify`;
   await execFun(cmdStr);
-  let et = await execFun('git push');
-  console.log("et:", et)
+  try{
+    let et = await execFun('git push');
+    console.log("et:", et)
+  } catch(err) {
+    console.log("catch err");
+  }
+ 
 }
 init();
