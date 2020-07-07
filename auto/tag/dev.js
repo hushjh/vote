@@ -26,7 +26,7 @@ async function init() {
   console.log("curBranch:", curBranch);
   let tag = getTagStr();
   console.log("tag:", tag);
-  let cmdStr = `git add . && git commit -m "new tag ${tag} published by ${userName}" --no-verify && git push`
+  let cmdStr = `git add . && git commit -m "new tag ${tag} published by ${userName}" --no-verify`;
   let et = await execFun(cmdStr);
   console.log("et:", et)
 }
