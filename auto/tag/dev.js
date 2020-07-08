@@ -22,12 +22,12 @@ function getTagStr() {
 async function init() {
   let {out: userName} = await execFun('git config user.name');
   let {out: curBranch} = await execFun("git symbolic-ref --short -q HEAD");
-  console.log("userName:", userName);
+  console.log("userName:", userName, 'hi');
   console.log("curBranch:", curBranch);
   let tag = getTagStr();
   console.log("tag:", tag);
   await execFun(`git add .`);
-  await execFun(`git commit -m "new tag ${tag} published by " --no-verify`);
+  await execFun(`git commit -m "new tag ${tag} published by ${userName}" --no-verify`);
   try{
     let et = await execFun('git push');
   } catch(err) {
