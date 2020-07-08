@@ -21,7 +21,7 @@ function getTagStr() {
 }
 async function init() {
   let {out: userName} = await execFun('git config user.name');
-  let curBranch = await execFun("git symbolic-ref --short -q HEAD");
+  let {out: curBranch} = await execFun("git symbolic-ref --short -q HEAD");
   console.log("userName:", userName);
   console.log("curBranch:", curBranch);
   let tag = getTagStr();
@@ -30,7 +30,6 @@ async function init() {
   await execFun(cmdStr);
   try{
     let et = await execFun('git push');
-    console.log("et:", et)
   } catch(err) {
     console.log("catch err");
     await execFun(`git push origin ${curBranch} -u`);
