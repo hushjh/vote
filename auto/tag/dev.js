@@ -26,16 +26,16 @@ async function init() {
   console.log("curBranch:", curBranch);
   let tag = getTagStr();
   console.log("tag:", tag);
-  let cmdStr = `git add . && git commit -m "new tag ${tag} published by ${userName}" --no-verify`;
-  await execFun(cmdStr);
+  await execFun(`git add .`);
+  await execFun(` git commit -m "new tag ${tag} published by ${userName}" --no-verify`);
   try{
     let et = await execFun('git push');
   } catch(err) {
     console.log("catch err");
     await execFun(`git push origin ${curBranch} -u`);
   }
-  cmdStr = `git tag ${tag} -a -m "${tag}" && git push origin ${tag}`;
-  await execFun(cmdStr);
+  await execFun(`git tag ${tag} -a -m "${tag}"`);
+  await execFun(`git push origin ${tag}`);
   let endStr = `Successfully taged
   ##########################################
   ${tag}
