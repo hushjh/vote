@@ -27,7 +27,7 @@ async function init() {
   let tag = getTagStr();
   console.log("tag:", tag);
   await execFun(`git add .`);
-  await execFun(` git commit -m "new tag ${tag} published by ${userName}" --no-verify`);
+  await execFun(`git commit -m "new tag ${tag} published by " --no-verify`);
   try{
     let et = await execFun('git push');
   } catch(err) {
