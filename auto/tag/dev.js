@@ -29,7 +29,11 @@ async function init() {
   let tag = getTagStr();
   console.log("tag:", tag);
   await execFun(`git add .`);
-  await execFun(`git commit -m "new tag ${tag} published by ${userName}" --no-verify`);
+  try{
+    await execFun(`git commit -m "new tag ${tag} published by ${userName}" --no-verify`);
+  } catch (err) {
+    console.log("无需提交的内容");
+  }
   try{
     let et = await execFun('git push');
   } catch(err) {
