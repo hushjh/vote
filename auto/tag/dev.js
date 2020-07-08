@@ -12,7 +12,7 @@ async function execFun(cmdStr){
 function getTagStr() {
   let now = new Date();
   let year = now.getFullYear();
-  let month = now.getMonth() > 10 ? now.getMonth() + 1 : '0' + now.getMonth() + 1;
+  let month = now.getMonth() > 10 ? now.getMonth() + 1 : '0' + (now.getMonth() + 1);
   let date = now.getDate() > 10 ? now.getDate() : '0' + now.getDate();
   let hour = now.getHours() > 10 ? now.getHours() : '0' + now.getHours();
   let minute = now.getMinutes() > 10 ? now.getMinutes(): '0' + now.getMinutes();
