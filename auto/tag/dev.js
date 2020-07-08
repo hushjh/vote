@@ -22,7 +22,7 @@ function getTagStr() {
 async function init() {
   let {out: userName} = await execFun('git config user.name');
   let {out: curBranch} = await execFun("git symbolic-ref --short -q HEAD");
-  // 去掉尾部回车
+  // 去掉尾部 回车
   userName = userName.replace(/[ ]|[\r\n]/g,"");
   console.log("userName:", userName, 'hi');
   console.log("curBranch:", curBranch);
