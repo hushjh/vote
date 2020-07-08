@@ -1,12 +1,12 @@
 const util = require('util');
-const { maxSatisfying } = require('semver');
 const exec = util.promisify(require('child_process').exec);
+const chalk = require("chalk");
 
 
 async function execFun(cmdStr){
   const { stdout, stderr } = await exec(cmdStr);
   console.log("stderr:", stderr);
-  return stdout;
+  return {out: stdout, err: stderr};
 }
 
 function getTagStr() {
@@ -20,7 +20,7 @@ function getTagStr() {
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
 async function init() {
-  let userName = await execFun('git config user.name');
+  let {out: userName} = await execFun('git config user.name');
   let curBranch = await execFun("git symbolic-ref --short -q HEAD");
   console.log("userName:", userName);
   console.log("curBranch:", curBranch);
@@ -33,7 +33,14 @@ async function init() {
     console.log("et:", et)
   } catch(err) {
     console.log("catch err");
+    await execFun(`git push origin ${curBranch} -u`);
   }
- 
+  cmdStr = `git tag ${tag} -a -m "${tag}" && git push origin ${tag}`;
+  await execFun(cmdStr);
+  let endStr = `Successfully taged
+  ##########################################
+  ${tag}
+  ##########################################`;
+  console.log(chalk.red(endStr));
 }
 init();
