@@ -22,19 +22,19 @@ function getTagStr() {
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
 function updateConfigFile() {
-  fs.readFile(__dirname+"/cmd_spawn.js", "utf-8", function(error, data) {
-    if (error) return console.log("读取文件失败,内容是" + error.message);
-    console.log("读取文件成功,内容是" + data);
-    return data;
-  });
-  // let devStr = "";
-  // try {
-  //   // devStr = fs.readFileSync('../../src/configuration/build/dev.js', 'utf-8');
-  //   devStr = fs.readFileSync('./cmd_spawn.js', 'utf-8');
-  // } catch (err) {
-  //   console.log('文件缺失不用怕，只有打包的时候才会用到')
-  // }
-  // console.log("devStr:", devStr);
+  // fs.readFile(__dirname+"/cmd_spawn.js", "utf-8", function(error, data) {
+  //   if (error) return console.log("读取文件失败,内容是" + error.message);
+  //   console.log("读取文件成功,内容是" + data);
+  //   return data;
+  // });
+  let devStr = "";
+  try {
+    // devStr = fs.readFileSync(__dirname + '/../../src/configuration/build/dev.js', 'utf-8');
+    devStr = fs.readFileSync('./cmd_spawn.js', 'utf-8');
+  } catch (err) {
+    console.log('文件缺失不用怕，只有打包的时候才会用到', err)
+  }
+  console.log("devStr:", devStr);
 }
 async function init() {
   let {out: userName} = await execFun('git config user.name');
