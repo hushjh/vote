@@ -22,7 +22,7 @@ function getTagStr() {
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
 function updateConfigFile() {
-  fs.readFile("./cmd_spawn.js", "utf-8", function(error, data) {
+  fs.readFile(__dirname+"/cmd_spawn.js", "utf-8", function(error, data) {
     if (error) return console.log("读取文件失败,内容是" + error.message);
     console.log("读取文件成功,内容是" + data);
     return data;
