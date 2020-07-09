@@ -29,7 +29,7 @@ function updateConfigFile() {
   // });
   let devStr = "";
   try {
-    devStr = fs.readFileSync(path.resolve(__dirname, '../../src/configuration/build/dev.js'), 'utf-8');
+    devStr = fs.readFileSync(path.resolve(__dirname, '../../src/configuration/dev.js'), 'utf-8');
   } catch (err) {
     console.log('文件缺失不用怕，只有打包的时候才会用到', err)
   }
