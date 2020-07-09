@@ -1,6 +1,8 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const chalk = require("chalk");
+const fs = require("fs");
+const path = require("path");
 
 
 async function execFun(cmdStr){
@@ -19,6 +21,20 @@ function getTagStr() {
   let seconde = now.getSeconds() > 10 ? now.getSeconds() : '0' + now.getSeconds();
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
+function updateConfigFile() {
+  // fs.readFile("./http/111.txt", "utf-8", function(error, data) {
+  //   if (error) return console.log("读取文件失败,内容是" + error.message);
+  //   console.log("读取文件成功,内容是" + data);
+  //   return data;
+  // });
+  let devStr = "";
+  try {
+    devStr = fs.readFileSync('../../src/configuration/build/dev.js', 'utf-8');
+  } catch (err) {
+    console.log('文件缺失不用怕，只有打包的时候才会用到')
+  }
+  console.log("devStr:", devStr);
+}
 async function init() {
   let {out: userName} = await execFun('git config user.name');
   let {out: curBranch} = await execFun("git symbolic-ref --short -q HEAD");
@@ -28,6 +44,7 @@ async function init() {
   console.log("curBranch:", curBranch);
   let tag = getTagStr();
   console.log("tag:", tag);
+  updateConfigFile();
   await execFun(`git add .`);
   try{
     await execFun(`git commit -m "new tag ${tag} published by ${userName}" --no-verify`);
