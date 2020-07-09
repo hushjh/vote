@@ -21,19 +21,18 @@ function getTagStr() {
   let seconde = now.getSeconds() > 10 ? now.getSeconds() : '0' + now.getSeconds();
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
-function updateConfigFile() {
-  // fs.readFile(__dirname+"/cmd_spawn.js", "utf-8", function(error, data) {
-  //   if (error) return console.log("读取文件失败,内容是" + error.message);
-  //   console.log("读取文件成功,内容是" + data);
-  //   return data;
-  // });
+function updateConfigFile(userName, curBranch, tag) {
   let devStr = "";
   try {
     devStr = fs.readFileSync(path.resolve(__dirname, '../../src/configuration/dev.js'), 'utf-8');
   } catch (err) {
     console.log('文件缺失不用怕，只有打包的时候才会用到', err)
   }
-  console.log("devStr:", devStr, typeof devStr);
+  devTemp = devStr.replace(/version: \'([\w\s\.\-\,]+)\'/,function(rs,$1){
+    newVersion = `version: 'The current version is ${tag} from ${curBranch} branch, published by ${userName}'`;
+    return newVersion;
+  })
+  console.log("devTemp after:", devTemp);
 }
 async function init() {
   let {out: userName} = await execFun('git config user.name');
@@ -44,7 +43,7 @@ async function init() {
   console.log("curBranch:", curBranch);
   let tag = getTagStr();
   console.log("tag:", tag);
-  updateConfigFile();
+  updateConfigFile(userName, curBranch, tag);
   await execFun(`git add .`);
   try{
     await execFun(`git commit -m "new tag ${tag} published by ${userName}" --no-verify`);
@@ -66,3 +65,4 @@ async function init() {
   console.log(chalk.red(endStr));
 }
 init();
+
