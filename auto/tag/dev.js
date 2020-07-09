@@ -33,7 +33,7 @@ function updateConfigFile() {
   } catch (err) {
     console.log('文件缺失不用怕，只有打包的时候才会用到', err)
   }
-  console.log("devStr:", devStr);
+  console.log("devStr:", devStr, typeof devStr);
 }
 async function init() {
   let {out: userName} = await execFun('git config user.name');
