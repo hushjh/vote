@@ -29,7 +29,8 @@ function updateConfigFile() {
   // });
   let devStr = "";
   try {
-    devStr = fs.readFileSync('../../src/configuration/build/dev.js', 'utf-8');
+    // devStr = fs.readFileSync('../../src/configuration/build/dev.js', 'utf-8');
+    devStr = fs.readFileSync('./cmd_spawn.js', 'utf-8');
   } catch (err) {
     console.log('文件缺失不用怕，只有打包的时候才会用到')
   }
