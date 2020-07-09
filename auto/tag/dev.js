@@ -22,9 +22,10 @@ function getTagStr() {
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
 function updateConfigFile(userName, curBranch, tag) {
+  let configFilePath = path.resolve(__dirname, '../../src/configuration/dev.js');
   let devStr = "";
   try {
-    devStr = fs.readFileSync(path.resolve(__dirname, '../../src/configuration/dev.js'), 'utf-8');
+    devStr = fs.readFileSync(configFilePath, 'utf-8');
   } catch (err) {
     console.log('文件缺失不用怕，只有打包的时候才会用到', err)
   }
@@ -33,6 +34,12 @@ function updateConfigFile(userName, curBranch, tag) {
     return newVersion;
   })
   console.log("devTemp after:", devTemp);
+  fs.writeFile(configFilePath, devTemp, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log("文件已被保存");
+  });
 }
 async function init() {
   let {out: userName} = await execFun('git config user.name');

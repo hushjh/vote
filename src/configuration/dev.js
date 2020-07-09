@@ -1,5 +1,6 @@
 module.exports = {
-	version: 'The current version is dev20200507145710 from SL2.0.135-0521 branch, published by keyq',
+	version: 'The current version is dev20200709175457 from dev
+ branch, published by hushjh',
   des: '内网测试环境',
   enverniment: 'dev',
   passportURL: 'http://192.168.48.92:12086',
