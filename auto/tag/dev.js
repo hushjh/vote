@@ -46,6 +46,7 @@ async function init() {
   let {out: curBranch} = await execFun("git symbolic-ref --short -q HEAD");
   // 去掉尾部 回车
   userName = userName.replace(/[ ]|[\r\n]/g,"");
+  curBranch = curBranch.replace(/[ ]|[\r\n]/g,"");
   console.log("userName:", userName, 'hi');
   console.log("curBranch:", curBranch);
   let tag = getTagStr();
