@@ -27,18 +27,16 @@ function updateConfigFile(userName, curBranch, tag) {
   try {
     devStr = fs.readFileSync(configFilePath, 'utf-8');
   } catch (err) {
-    console.log('文件缺失不用怕，只有打包的时候才会用到', err)
+    console.log('文件缺失src/configuration/dev.js', err)
   }
   devTemp = devStr.replace(/version: \'([\w\s\.\-\,]+)\'/,function(rs,$1){
     newVersion = `version: 'The current version is ${tag} from ${curBranch} branch, published by ${userName}'`;
     return newVersion;
   })
-  console.log("devTemp after:", devTemp);
   fs.writeFile(configFilePath, devTemp, (err) => {
     if (err) {
       console.log(err);
     }
-    console.log("文件已被保存");
   });
 }
 async function init() {
@@ -47,10 +45,7 @@ async function init() {
   // 去掉尾部 回车
   userName = userName.replace(/[ ]|[\r\n]/g,"");
   curBranch = curBranch.replace(/[ ]|[\r\n]/g,"");
-  console.log("userName:", userName, 'hi');
-  console.log("curBranch:", curBranch);
   let tag = getTagStr();
-  console.log("tag:", tag);
   updateConfigFile(userName, curBranch, tag);
   await execFun(`git add .`);
   try{
@@ -61,7 +56,6 @@ async function init() {
   try{
     let et = await execFun('git push');
   } catch(err) {
-    console.log("catch err");
     await execFun(`git push origin ${curBranch} -u`);
   }
   await execFun(`git tag ${tag} -a -m "${tag}"`);
