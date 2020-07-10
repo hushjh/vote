@@ -64,7 +64,8 @@ async function init() {
     await execFun(`git push origin ${curBranch} -u`);
   }
   await execFun(`git tag ${tag} -a -m "${tag}"`);
-  await execFun(`git push origin ${tag}`);
+  let {out: tagout, stderr: err} = await execFun(`git push origin ${tag}`);
+  console.log("tag:", tagout, "err:", err);
   spinner.stop()
   let endStr = `Successfully taged
 ##########################################
