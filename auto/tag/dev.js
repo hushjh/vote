@@ -7,7 +7,9 @@ const path = require("path");
 
 async function execFun(cmdStr){
   const { stdout, stderr } = await exec(cmdStr);
-  console.log("stderr:", stderr);
+  if (stderr) {
+    console.log("stderr:", stderr);
+  }
   return {out: stdout, err: stderr};
 }
 
@@ -61,9 +63,9 @@ async function init() {
   await execFun(`git tag ${tag} -a -m "${tag}"`);
   await execFun(`git push origin ${tag}`);
   let endStr = `Successfully taged
-  ##########################################
+##########################################
   ${tag}
-  ##########################################`;
+##########################################`;
   console.log(chalk.red(endStr));
 }
 init();
