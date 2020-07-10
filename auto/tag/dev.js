@@ -3,7 +3,10 @@ const exec = util.promisify(require('child_process').exec);
 const chalk = require("chalk");
 const fs = require("fs");
 const path = require("path");
+const ora = require('ora')
 
+const spinner = ora('taging for dev...')
+spinner.start()
 
 async function execFun(cmdStr){
   const { stdout, stderr } = await exec(cmdStr);
@@ -62,6 +65,7 @@ async function init() {
   }
   await execFun(`git tag ${tag} -a -m "${tag}"`);
   await execFun(`git push origin ${tag}`);
+  spinner.stop()
   let endStr = `Successfully taged
 ##########################################
   ${tag}
