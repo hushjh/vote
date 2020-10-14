@@ -5,8 +5,13 @@
 </template>
 
 <script>
+import {Person} from '@/util/test'
 export default {
-  name: 'App'
+  name: 'App',
+  mounted () {
+    const p = new Person()
+    console.log(p)
+  }
 }
 </script>
 
