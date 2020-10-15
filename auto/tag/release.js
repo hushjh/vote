@@ -27,6 +27,8 @@ function getTagStr() {
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
 function updateConfigFile(userName, curBranch, tag) {
+  argvs = process.argv;
+  console.log('argvs:', argvs);
   let configFilePath = path.resolve(__dirname, '../../src/configuration/release.js');
   let devStr = "";
   try {
