@@ -1,5 +1,5 @@
 module.exports = {
-  version: 'The current version is release20200703205551 from master branch, published by Just be free',
+  version: 'The current version is dev2020010150105814 from master branch, published by hushjh',
   des: '生产环境',
   enverniment: 'release',
   passportURL: 'https://passportm.51ykb.com',
