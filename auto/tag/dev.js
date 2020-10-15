@@ -19,7 +19,7 @@ async function execFun(cmdStr){
 function getTagStr() {
   let now = new Date();
   let year = now.getFullYear();
-  let month = now.getMonth() > 9 ? now.getMonth() + 1 : '0' + (now.getMonth() + 1);
+  let month = now.getMonth() > 8 ? now.getMonth() + 1 : '0' + (now.getMonth() + 1);
   let date = now.getDate() > 9 ? now.getDate() : '0' + now.getDate();
   let hour = now.getHours() > 9 ? now.getHours() : '0' + now.getHours();
   let minute = now.getMinutes() > 9 ? now.getMinutes(): '0' + now.getMinutes();
@@ -44,7 +44,7 @@ function updateConfigFile(userName, curBranch, tag) {
     }
   });
 }
-async function init() {
+async function init(args) {
   let {out: userName} = await execFun('git config user.name');
   let {out: curBranch} = await execFun("git symbolic-ref --short -q HEAD");
   // 去掉尾部 回车
@@ -73,5 +73,5 @@ async function init() {
 ##########################################`;
   console.log(chalk.red(endStr));
 }
-init();
+init(args);
 
