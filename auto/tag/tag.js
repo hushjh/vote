@@ -27,12 +27,14 @@ function getTagStr() {
   return 'dev' + year + month + date + hour + minute + seconde; 
 }
 function updateConfigFile(userName, curBranch, tag) {
-  let configFilePath = path.resolve(__dirname, '../../src/configuration/dev.js');
+  const env = process.argv[2]; // dev, test, release
+  console.log('env:', env);
+  let configFilePath = path.resolve(__dirname, `../../src/configuration/${env}.js`);
   let devStr = "";
   try {
     devStr = fs.readFileSync(configFilePath, 'utf-8');
   } catch (err) {
-    console.log('文件缺失src/configuration/dev.js', err)
+    console.log(`文件缺失src/configuration/${env}.js`, err)
   }
   devTemp = devStr.replace(/version: \'([\w\s\.\-\,]+)\'/,function(rs,$1){
     newVersion = `version: 'The current version is ${tag} from ${curBranch} branch, published by ${userName}'`;
