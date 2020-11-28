@@ -1,5 +1,6 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+// child_process 模块 exec 方法执行shell 命令,util.promisify 将exec 的回调函数模式转换成promise模式
 const chalk = require("chalk");
 const fs = require("fs");
 const path = require("path");
@@ -24,7 +25,8 @@ function getTagStr() {
   let hour = now.getHours() > 9 ? now.getHours() : '0' + now.getHours();
   let minute = now.getMinutes() > 9 ? now.getMinutes(): '0' + now.getMinutes();
   let seconde = now.getSeconds() > 9 ? now.getSeconds() : '0' + now.getSeconds();
-  return 'dev' + year + month + date + hour + minute + seconde; 
+  const env = process.argv[2]; // dev, test, release
+  return env + year + month + date + hour + minute + seconde; 
 }
 function updateConfigFile(userName, curBranch, tag) {
   const env = process.argv[2]; // dev, test, release

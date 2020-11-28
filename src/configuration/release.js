@@ -1,5 +1,5 @@
 module.exports = {
-  version: 'The current version is dev20201015110900 from master branch, published by hushjh',
+  version: 'The current version is dev20201128115600 from master branch, published by hushjh',
   des: '生产环境',
   enverniment: 'release',
   passportURL: 'https://passportm.51ykb.com',
@@ -8,5 +8,5 @@ module.exports = {
   flightInfo: 'https://h5.133.cn', // 航班管家，航班动态
   nonce: '%RuyLKf!QoAYet4o',
   strict: true,
-  ciccId: "1d441ebe-f3ed-c80c-3d70-08d54f97d85c"
-};
+  ciccId: '1d441ebe-f3ed-c80c-3d70-08d54f97d85c'
+}

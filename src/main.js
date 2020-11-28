@@ -6,8 +6,10 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import {log} from '@/configuration'
+import * as config from '@/configuration/export.js'
 
 log()
+console.log('config:', config)
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

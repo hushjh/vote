@@ -1,5 +1,5 @@
 module.exports = {
-	version: 'The current version is dev20201015111626 from master branch, published by hushjh',
+  version: 'The current version is dev20201015111626 from master branch, published by hushjh',
   des: '内网测试环境',
   enverniment: 'dev',
   passportURL: 'http://192.168.48.92:12086',
@@ -8,5 +8,5 @@ module.exports = {
   flightInfo: 'https://wtest.133.cn',
   nonce: '%RuyLKf!QoAYet4o',
   strict: true,
-  ciccId: "0671cf84-a456-c826-c58a-08d612f3bd9a"
-};
+  ciccId: '0671cf84-a456-c826-c58a-08d612f3bd9a'
+}
